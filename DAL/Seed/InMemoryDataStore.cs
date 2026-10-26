@@ -33,7 +33,7 @@ public class InMemoryDataStore
             Id           = 1,
             Nombre       = "Administrador PetFinder",
             Email        = "admin@petfinder.mx",
-            PasswordHash = "$2a$11$admin_hash_placeholder",   // bcrypt simulado
+            PasswordHash = "il2p8ZME8omrK6OnOkLEeK9ynd7L3UYXZizOaRLieFs=",   // Admin12345
             Rol          = Rol.Administrador,
             Ciudad       = "Ciudad de México",
             Activo       = true,
@@ -44,7 +44,7 @@ public class InMemoryDataStore
             Id           = 2,
             Nombre       = "Refugio Patitas Felices",
             Email        = "refugio@patitasfelices.mx",
-            PasswordHash = "$2a$11$refugio_hash_placeholder",
+            PasswordHash = "r0NqYXaNPxx70Hly06kZvskJVl3eQp/JWcRm7aTzD9Q=",  // Refugio12345
             Rol          = Rol.Refugio,
             Ciudad       = "Guadalajara",
             Telefono     = "3312345678",
@@ -56,7 +56,7 @@ public class InMemoryDataStore
             Id           = 3,
             Nombre       = "Ana García",
             Email        = "ana@gmail.com",
-            PasswordHash = "$2a$11$adoptante_hash_placeholder",
+            PasswordHash = "RNJAz4LA4oAFTzVYE7BvixF06opjjd8JzXuMxmBSlAQ=",  // Adoptante12345
             Rol          = Rol.Adoptante,
             Ciudad       = "Guadalajara",
             Telefono     = "3398765432",
@@ -68,7 +68,7 @@ public class InMemoryDataStore
             Id           = 4,
             Nombre       = "Carlos López",
             Email        = "carlos@gmail.com",
-            PasswordHash = "$2a$11$adoptante2_hash_placeholder",
+            PasswordHash = "RNJAz4LA4oAFTzVYE7BvixF06opjjd8JzXuMxmBSlAQ=",  // Adoptante12345
             Rol          = Rol.Adoptante,
             Ciudad       = "Monterrey",
             Activo       = true,
@@ -79,7 +79,7 @@ public class InMemoryDataStore
             Id           = 5,
             Nombre       = "Refugio Huellitas CDMX",
             Email        = "refugio@huellitas.mx",
-            PasswordHash = "$2a$11$refugio2_hash_placeholder",
+            PasswordHash = "r0NqYXaNPxx70Hly06kZvskJVl3eQp/JWcRm7aTzD9Q=",  // Refugio12345
             Rol          = Rol.Refugio,
             Ciudad       = "Ciudad de México",
             Telefono     = "5512345678",
