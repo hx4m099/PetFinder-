@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ENTITY\ENTITY.csproj" />
+  </ItemGroup>
+
+  <!-- EF Core relacional: incluye HasColumnName, ToTable, HasIndex, etc.        -->
+  <!-- Oracle.EntityFrameworkCore se agregará cuando se conecte la BD real.      -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
+  </ItemGroup>
+
+</Project>
