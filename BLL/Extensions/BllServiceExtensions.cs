@@ -35,6 +35,7 @@ public static class BllServiceExtensions
         services.AddScoped<IAdopcionService,    AdopcionService>();
         services.AddScoped<ICitaService,        CitaService>();
         services.AddScoped<IRefugioService,     RefugioService>();
+        services.AddScoped<IEstadisticasService, EstadisticasService>();
 
         // 4. Validadores FluentValidation (auto-discovery por ensamblado)
         services.AddValidatorsFromAssemblyContaining<RegistroDtoValidator>();

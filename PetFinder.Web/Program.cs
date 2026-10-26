@@ -1,11 +1,15 @@
 using BLL.Extensions;
 using BLL.Exceptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using PetFinder.Web.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Servicios ─────────────────────────────────────────────────────────────────
 builder.Services.AddControllersWithViews();
+
+// Configuración de opciones
+builder.Services.Configure<MapaOptions>(builder.Configuration.GetSection(MapaOptions.SectionName));
 
 // Registra BLL completo (que internamente registra DAL + repos en memoria)
 builder.Services.AddBll();
