@@ -47,6 +47,19 @@ public class Refugio
     [MaxLength(200)]
     public string? HorarioAtencion { get; set; }
 
+    /// <summary>Propiedad de acceso directo / alias para horario.</summary>
+    public string? Horario
+    {
+        get => HorarioAtencion;
+        set => HorarioAtencion = value;
+    }
+
+    /// <summary>Coordenada geográfica de latitud para el mapa.</summary>
+    public double? Latitud { get; set; }
+
+    /// <summary>Coordenada geográfica de longitud para el mapa.</summary>
+    public double? Longitud { get; set; }
+
     /// <summary>Indica si el refugio está activo en la plataforma.</summary>
     public bool Activo { get; set; } = true;
 

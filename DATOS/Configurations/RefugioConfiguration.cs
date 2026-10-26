@@ -40,6 +40,16 @@ public class RefugioConfiguration : IEntityTypeConfiguration<Refugio>
         builder.Property(r => r.HorarioAtencion)
                .HasColumnName("HORARIO_ATENCION").HasMaxLength(200);
 
+        builder.Property(r => r.Latitud)
+               .HasColumnName("LATITUD")
+               .HasPrecision(10, 7);
+
+        builder.Property(r => r.Longitud)
+               .HasColumnName("LONGITUD")
+               .HasPrecision(10, 7);
+
+        builder.Ignore(r => r.Horario);
+
         builder.Property(r => r.Activo)
                .HasColumnName("ACTIVO").HasConversion<int>();
 
