@@ -28,10 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollWheelZoom: false
     });
 
-    // Añadir capa de teselas (CartoDB Positron: estética limpia y moderna)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+    // Capa de teselas estándar de OpenStreetMap (100% gratuita y sin requerimiento de API Key)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19
     }).addTo(map);
 
