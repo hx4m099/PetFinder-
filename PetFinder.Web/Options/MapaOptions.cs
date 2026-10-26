@@ -8,11 +8,11 @@ public class MapaOptions
 {
     public const string SectionName = "MapaOptions";
 
-    /// <summary>Latitud inicial para el centro del mapa.</summary>
-    public double CentroLatitud { get; set; } = 19.4172;
+    /// <summary>Latitud inicial para el centro del mapa en Valledupar, Cesar.</summary>
+    public double CentroLatitud { get; set; } = 10.4631;
 
-    /// <summary>Longitud inicial para el centro del mapa.</summary>
-    public double CentroLongitud { get; set; } = -99.1643;
+    /// <summary>Longitud inicial para el centro del mapa en Valledupar, Cesar.</summary>
+    public double CentroLongitud { get; set; } = -73.2532;
 
     /// <summary>Nivel de zoom inicial del mapa.</summary>
     public int ZoomInicial { get; set; } = 13;

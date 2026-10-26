@@ -1,0 +1,51 @@
+@model IEnumerable<BLL.Dtos.RefugioDto>
+@{
+    ViewData["Title"] = "Gestión de Refugios — Admin";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-bold mb-1">🏠 Refugios registrados</h1>
+            <p class="text-muted mb-0">Listado completo de organizaciones y refugios aliados en Valledupar, Cesar.</p>
+        </div>
+        <a asp-action="Panel" class="btn pf-btn-outline btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Volver al Panel
+        </a>
+    </div>
+
+    <div class="pf-card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dirección / Barrio</th>
+                        <th>Teléfono</th>
+                        <th>Horario</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@r.Nombre</strong>
+                                <br><small class="text-muted">@r.Email</small>
+                            </td>
+                            <td>@r.Direccion, @r.Ciudad</td>
+                            <td>@r.Telefono</td>
+                            <td><small>@r.HorarioAtencion</small></td>
+                            <td class="text-end">
+                                <a asp-controller="Adopcion" asp-action="Catalogo" asp-route-refugioId="@r.Id" class="btn btn-sm btn-outline-primary">
+                                    Ver catálogo
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

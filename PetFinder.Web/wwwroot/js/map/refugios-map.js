@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const defaultLat = parseFloat(mapContainer.dataset.lat || '19.4172');
-    const defaultLon = parseFloat(mapContainer.dataset.lon || '-99.1643');
+    const defaultLat = parseFloat(mapContainer.dataset.lat || '10.4631');
+    const defaultLon = parseFloat(mapContainer.dataset.lon || '-73.2532');
     const defaultZoom = parseInt(mapContainer.dataset.zoom || '13', 10);
 
     // Inicializar mapa con scroll desactivado para no bloquear en móviles
@@ -107,6 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             markers.push(marker);
         });
+
+        if (markers.length > 0 && !userCoords) {
+            const group = L.featureGroup(markers);
+            map.fitBounds(group.getBounds().pad(0.2));
+        }
     }
 
     // Función para renderizar la lista de tarjetas

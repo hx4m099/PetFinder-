@@ -38,7 +38,7 @@
                             <div class="board-card-img-wrap">
                                 @if (!string.IsNullOrEmpty(rep.FotoUrl))
                                 {
-                                    <img src="@rep.FotoUrl" alt="@(rep.NombreMascota ?? "Mascota reportada")" class="board-card-img" loading="lazy">
+                                    <img src="@rep.FotoUrl" alt="@(rep.NombreMascota ?? "Mascota reportada")" class="board-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/placeholder-pet.svg';">
                                 }
                                 else
                                 {

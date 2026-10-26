@@ -30,7 +30,7 @@
                         <div class="pet-card-image-wrap">
                             @if (!string.IsNullOrEmpty(mascota.FotoUrl))
                             {
-                                <img src="@mascota.FotoUrl" alt="@mascota.Nombre" class="pet-card-img" loading="lazy">
+                                <img src="@mascota.FotoUrl" alt="@mascota.Nombre" class="pet-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/placeholder-pet.svg';">
                             }
                             else
                             {
