@@ -1,0 +1,86 @@
+@* PetFinder.Web/Views/Home/_FaqSection.cshtml *@
+
+<section id="faq" class="faq-section py-6 position-relative" aria-labelledby="faq-title">
+    <div class="container">
+        <div class="text-center mb-5" data-reveal="fade-up">
+            <span class="section-tag">PREGUNTAS FRECUENTES</span>
+            <h2 id="faq-title" class="section-title-serif mt-2">
+                Resolvemos tus <span class="highlight-serif">dudas habituales</span>
+            </h2>
+            <p class="section-subtitle mx-auto">
+                Todo lo que necesitas saber sobre el uso de la plataforma, reportes y procesos de adopción.
+            </p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-reveal="fade-up">
+                <div class="faq-accordion-group">
+                    <!-- Pregunta 1 -->
+                    <div class="faq-item">
+                        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-body-1">
+                            <span class="faq-question-text">¿Tiene algún costo reportar una mascota o adoptar en PetFinder?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div id="faq-body-1" class="faq-content" hidden>
+                            <div class="faq-answer-inner">
+                                No, la plataforma PetFinder es completamente gratuita para ciudadanos y dueños de mascotas. No cobramos comisiones por publicar reportes de mascotas perdidas ni por consultar coincidencias. Cada refugio asociado gestiona sus propios protocolos de adopción sin tarifas intermediarias.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="faq-item">
+                        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-body-2">
+                            <span class="faq-question-text">¿Cómo funciona la comparación visual de fotografías?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div id="faq-body-2" class="faq-content" hidden>
+                            <div class="faq-answer-inner">
+                                Cuando subes una foto, nuestro motor analiza características visuales clave como distribución de color, patrón del pelaje y morfología facial o corporal, comparándola instantáneamente con la base de datos de mascotas reportadas activas para sugerirte posibles coincidencias con su porcentaje de similitud.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="faq-item">
+                        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-body-3">
+                            <span class="faq-question-text">¿Cómo puedo registrar mi refugio u organización en la plataforma?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div id="faq-body-3" class="faq-content" hidden>
+                            <div class="faq-answer-inner">
+                                Al registrarte, selecciona el rol de <strong>Refugio</strong> y completa los datos de tu organización (nombre, dirección con coordenadas, horario y teléfono de contacto). Un administrador revisará la información para verificar la autenticidad y activar tu perfil en el mapa interactivo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="faq-item">
+                        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-body-4">
+                            <span class="faq-question-text">¿Qué debo hacer si encuentro una mascota sola en la calle?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div id="faq-body-4" class="faq-content" hidden>
+                            <div class="faq-answer-inner">
+                                Resguarda al animal en un lugar seguro y toma una fotografía nítida con buena luz. Entra a PetFinder y crea un reporte de tipo <strong>"Encontrado"</strong> indicando la ubicación exacta donde lo viste. Nuestro sistema notificará a posibles dueños con reportes de pérdida en esa misma zona.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="faq-item">
+                        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-body-5">
+                            <span class="faq-question-text">¿Cómo se agenda una cita de adopción con un refugio aliado?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div id="faq-body-5" class="faq-content" hidden>
+                            <div class="faq-answer-inner">
+                                Explora el catálogo de mascotas o la ficha del refugio en nuestro mapa. En la página de detalle de la mascota de tu interés, haz clic en "Agendar Cita de Adopción", selecciona la fecha y hora disponible, y el refugio confirmará tu cita para que puedas conocerla en persona.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

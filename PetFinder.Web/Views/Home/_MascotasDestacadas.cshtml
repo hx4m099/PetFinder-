@@ -1,0 +1,68 @@
+@* PetFinder.Web/Views/Home/_MascotasDestacadas.cshtml *@
+@model IEnumerable<BLL.Dtos.MascotaResumenDto>
+
+<section id="adopciones" class="mascotas-destacadas-section py-6 position-relative" aria-labelledby="destacadas-title">
+    <div class="container">
+        <!-- Encabezado con enlace al catálogo completo -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5" data-reveal="fade-up">
+            <div>
+                <span class="section-tag">COMPAÑEROS ESPERANDO UN HOGAR</span>
+                <h2 id="destacadas-title" class="section-title-serif mt-2">
+                    Mascotas listas para <span class="highlight-serif">ser amadas</span>
+                </h2>
+                <p class="section-subtitle mb-0">
+                    Conoce a algunos de los pequeños bajo el cuidado de nuestros refugios aliados listos para adopción responsable.
+                </p>
+            </div>
+            <div class="mt-3 mt-md-0">
+                <a asp-controller="Adopcion" asp-action="Catalogo" class="btn btn-outline-pf">
+                    Explorar catálogo completo <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Grid de Tarjetas con Efecto Tilt 3D -->
+        <div class="row g-4" data-reveal-group>
+            @foreach (var mascota in Model)
+            {
+                <div class="col-sm-6 col-lg-3">
+                    <div class="pet-card-featured" data-tilt>
+                        <div class="pet-card-image-wrap">
+                            @if (!string.IsNullOrEmpty(mascota.FotoUrl))
+                            {
+                                <img src="@mascota.FotoUrl" alt="@mascota.Nombre" class="pet-card-img" loading="lazy">
+                            }
+                            else
+                            {
+                                <div class="pet-card-placeholder">
+                                    <i class="bi bi-camera display-4 text-muted"></i>
+                                </div>
+                            }
+                            <span class="pet-card-badge-especie">
+                                @if (mascota.Especie == ENTITY.Enums.Especie.Perro) { <span>🐶 Perro</span> }
+                                else if (mascota.Especie == ENTITY.Enums.Especie.Gato) { <span>🐱 Gato</span> }
+                                else { <span>🦜 Otro</span> }
+                            </span>
+                            <button type="button" class="pet-card-heart-btn" aria-label="Guardar @mascota.Nombre en favoritos">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                        <div class="pet-card-content">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h3 class="pet-card-name">@mascota.Nombre</h3>
+                                <span class="pet-card-age">@(mascota.EdadMeses / 12 > 0 ? $"{mascota.EdadMeses / 12} años" : $"{mascota.EdadMeses} meses")</span>
+                            </div>
+                            <p class="pet-card-breed">@(!string.IsNullOrEmpty(mascota.Raza) ? mascota.Raza : "Mestizo adorable")</p>
+                            <p class="pet-card-shelter"><i class="bi bi-house-door me-1"></i>@mascota.NombreRefugio</p>
+                            <div class="pet-card-action mt-3">
+                                <a asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@mascota.Id" class="btn-adopt-card">
+                                    Conocer historia <i class="bi bi-arrow-up-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

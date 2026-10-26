@@ -1,13 +1,15 @@
+@* PetFinder.Web/Views/Home/Index.cshtml *@
+@model PetFinder.Web.Models.HomeViewModel
 @{
     ViewData["Title"] = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- ── Hero Section ───────────────────────────────────────────────────────── -->
-<section class="pf-hero" id="hero-section" aria-label="Sección principal">
+<!-- ── Hero Section con Cachorro Chibi 3D Interactivo ───────────────────────── -->
+<section class="pf-hero hero-section" id="hero-section" aria-label="Sección principal">
     <div class="container position-relative">
         <div class="row align-items-center gy-4">
-            <div class="col-lg-6">
+            <div class="col-lg-6" data-reveal="fade-right">
                 <div class="pf-hero-badge">
                     <span>🐾</span> +200 mascotas rescatadas este año
                 </div>
@@ -37,7 +39,7 @@
                     }
                 </div>
             </div>
-            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+            <div class="col-lg-6 d-flex justify-content-center align-items-center" data-reveal="fade-left">
                 <div class="pf-hero-canvas-container" id="hero-canvas-container">
                     <canvas id="hero-canvas" aria-label="Perrito 3D interactivo"></canvas>
                 </div>
@@ -46,76 +48,37 @@
     </div>
 </section>
 
-<!-- ── Stats ──────────────────────────────────────────────────────────────── -->
-<section class="container my-n4 position-relative" style="z-index:10;" aria-label="Estadísticas">
-    <div class="pf-stats">
-        <div class="row text-center g-4">
-            <div class="col-6 col-md-3">
-                <div class="pf-stat-number" data-count="200">0</div>
-                <div class="pf-stat-label">Mascotas rescatadas</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="pf-stat-number" data-count="15">0</div>
-                <div class="pf-stat-label">Refugios aliados</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="pf-stat-number" data-count="450">0</div>
-                <div class="pf-stat-label">Familias felices</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="pf-stat-number" data-count="98">0</div>
-                <div class="pf-stat-label">% de satisfacción</div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- 1. Cifras de Impacto (Contadores animados por scroll) -->
+@await Html.PartialAsync("_StatsSection", Model.Estadisticas)
 
-<!-- ── Features ───────────────────────────────────────────────────────────── -->
-<section class="pf-features" aria-labelledby="features-title">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 id="features-title" class="display-6 fw-bold">¿Cómo funciona PetFinder?</h2>
-            <p class="text-muted">Tres pasos simples para cambiar la vida de una mascota</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="pf-card h-100 p-4 text-center">
-                    <div class="pf-feature-icon mx-auto" style="background:#FFF3E0">📸</div>
-                    <h3 class="h5 fw-bold">1. Reporta con foto</h3>
-                    <p class="text-muted">Sube la foto de tu mascota perdida o encontrada. Nuestro sistema la compara automáticamente.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="pf-card h-100 p-4 text-center">
-                    <div class="pf-feature-icon mx-auto" style="background:#E8F5E9">🔍</div>
-                    <h3 class="h5 fw-bold">2. Encuentra coincidencias</h3>
-                    <p class="text-muted">Te mostramos los reportes más similares ordenados por porcentaje de coincidencia.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="pf-card h-100 p-4 text-center">
-                    <div class="pf-feature-icon mx-auto" style="background:#E3F2FD">🏠</div>
-                    <h3 class="h5 fw-bold">3. Adopta con refugios</h3>
-                    <p class="text-muted">Explora el catálogo de mascotas y agenda una cita en el refugio aliado más cercano.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- 2. Cómo Funciona (3 pasos con línea discontinua animada) -->
+@await Html.PartialAsync("_PasosSection")
 
-<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
-<section class="py-5" style="background:linear-gradient(135deg,#FF7043,#E64A19)">
-    <div class="container text-center text-white py-3">
-        <h2 class="fw-bold mb-3">¿Tienes una mascota perdida?</h2>
-        <p class="mb-4 opacity-75 fs-5">Crea un reporte ahora y encuentra coincidencias en minutos.</p>
-        <a asp-controller="Auth" asp-action="Registro" class="btn btn-light btn-lg px-5 fw-bold"
-           style="border-radius:50px;color:var(--pf-orange)">
-            Empezar — es gratis
-        </a>
-    </div>
-</section>
+<!-- 3. Red de Refugios (Mapa interactivo Leaflet y lista sincronizada) -->
+@await Html.PartialAsync("_MapaRefugios", Model)
+
+<!-- 4. Mascotas Destacadas (Catálogo con efecto 3D tilt y enlace de adopción) -->
+@await Html.PartialAsync("_MascotasDestacadas", Model.MascotasDestacadas)
+
+<!-- 5. Tablero Comunitario (Fondo oscuro #4A3728 y alertas de búsqueda) -->
+@await Html.PartialAsync("_TableroComunitario", Model.AvisosRecientes)
+
+<!-- 6. Historias de Reencuentro (Testimonios y experiencias comunitarias) -->
+@await Html.PartialAsync("_HistoriasSection")
+
+<!-- 7. Preguntas Frecuentes (Acordeón accesible) -->
+@await Html.PartialAsync("_FaqSection")
+
+<!-- 8. Llamada a la Acción Final -->
+@await Html.PartialAsync("_CtaSection")
 
 @section Scripts {
+    <!-- Cachorro Chibi 3D en Three.js -->
     <script type="module" src="~/js/three/landing-scene.js"></script>
-    <script src="~/js/counter-animation.js"></script>
+
+    <!-- Mapa Interactivo de Refugios en Leaflet -->
+    <script src="~/js/map/refugios-map.js"></script>
+
+    <!-- Módulo Central de Animaciones de Scroll y Micro-interacciones -->
+    <script type="module" src="~/js/scroll/main.js"></script>
 }

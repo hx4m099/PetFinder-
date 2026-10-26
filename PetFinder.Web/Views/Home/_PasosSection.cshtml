@@ -1,0 +1,85 @@
+@* PetFinder.Web/Views/Home/_PasosSection.cshtml *@
+
+<section id="pasos" class="steps-section py-6 position-relative" aria-labelledby="pasos-title">
+    <!-- Decoración Parallax de fondo -->
+    <div class="parallax-paw paw-1" data-parallax data-speed="0.12" aria-hidden="true">🐾</div>
+    <div class="parallax-paw paw-2" data-parallax data-speed="-0.15" aria-hidden="true">🐾</div>
+
+    <div class="container position-relative">
+        <div class="text-center mb-5" data-reveal="fade-up">
+            <span class="section-tag">TRES PASOS, UN NUEVO COMIENZO</span>
+            <h2 id="pasos-title" class="section-title-serif mt-2">
+                Pequeñas acciones. <span class="highlight-serif">Grandes reencuentros.</span>
+            </h2>
+            <p class="section-subtitle mx-auto">
+                Diseñamos una experiencia ágil y empática para devolver la calma a tu familia o recibir a tu próximo compañero.
+            </p>
+        </div>
+
+        <!-- Línea conectora SVG animada por scroll (visible en desktop) -->
+        <div class="steps-connector-wrapper d-none d-lg-block" aria-hidden="true">
+            <svg class="steps-connector-svg" viewBox="0 0 1000 80" fill="none" preserveAspectRatio="none">
+                <path class="steps-connector-path" d="M 120 40 Q 350 -10 500 40 T 880 40" stroke="#F26B3A" stroke-width="3" stroke-dasharray="8 8" stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <div class="row g-4 position-relative" data-reveal-group>
+            <!-- Paso 01 -->
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <div class="step-header">
+                        <span class="step-badge">01</span>
+                        <div class="step-icon">
+                            <i class="bi bi-camera"></i>
+                        </div>
+                    </div>
+                    <h3 class="step-title">Reporta con una fotografía</h3>
+                    <p class="step-description">
+                        Sube una foto clara de la mascota perdida o encontrada. Nuestro sistema extrae sus rasgos característicos y los indexa al instante.
+                    </p>
+                    <div class="step-footer mt-auto">
+                        <span class="step-hint"><i class="bi bi-lightning-charge me-1"></i>En menos de 2 minutos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 02 -->
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <div class="step-header">
+                        <span class="step-badge">02</span>
+                        <div class="step-icon">
+                            <i class="bi bi-radar"></i>
+                        </div>
+                    </div>
+                    <h3 class="step-title">Coincidencias y refugios</h3>
+                    <p class="step-description">
+                        Comparamos el reporte con nuestra red aliada y te mostramos coincidencias porcentuales o refugios cercanos con rescates similares.
+                    </p>
+                    <div class="step-footer mt-auto">
+                        <span class="step-hint"><i class="bi bi-geo-alt me-1"></i>Red de refugios verificados</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 03 -->
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <div class="step-header">
+                        <span class="step-badge">03</span>
+                        <div class="step-icon">
+                            <i class="bi bi-balloon-heart"></i>
+                        </div>
+                    </div>
+                    <h3 class="step-title">Reencuentro o adopción</h3>
+                    <p class="step-description">
+                        Coordina una visita con el refugio o contacta de forma segura a quien encontró a tu mascota para devolverla a su hogar.
+                    </p>
+                    <div class="step-footer mt-auto">
+                        <span class="step-hint"><i class="bi bi-shield-check me-1"></i>Proceso seguro y transparente</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,62 @@
+@* PetFinder.Web/Views/Home/_StatsSection.cshtml *@
+@model BLL.Dtos.EstadisticasImpactoDto
+
+<section id="impacto" class="stats-section position-relative" aria-label="Cifras de impacto comunitario">
+    <div class="container">
+        <div class="stats-card" data-reveal="fade-up">
+            <div class="row g-4 text-center align-items-center">
+                <!-- Stat 1: Mascotas Reunidas -->
+                <div class="col-6 col-lg-3">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap stat-icon-orange">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <div class="stat-number" data-counter data-target="@Model.MascotasReunidas" data-suffix="+">
+                            @Model.MascotasReunidas+
+                        </div>
+                        <div class="stat-label">Mascotas reunidas</div>
+                    </div>
+                </div>
+
+                <!-- Stat 2: Refugios Aliados -->
+                <div class="col-6 col-lg-3">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap stat-icon-green">
+                            <i class="bi bi-house-heart-fill"></i>
+                        </div>
+                        <div class="stat-number" data-counter data-target="@Model.RefugiosAliados">
+                            @Model.RefugiosAliados
+                        </div>
+                        <div class="stat-label">Refugios aliados</div>
+                    </div>
+                </div>
+
+                <!-- Stat 3: Adopciones Concretadas -->
+                <div class="col-6 col-lg-3">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap stat-icon-blue">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="stat-number" data-counter data-target="@Model.AdopcionesConcretadas" data-suffix="+">
+                            @Model.AdopcionesConcretadas+
+                        </div>
+                        <div class="stat-label">Adopciones felices</div>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Reportes Activos -->
+                <div class="col-6 col-lg-3">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap stat-icon-amber">
+                            <i class="bi bi-search-heart"></i>
+                        </div>
+                        <div class="stat-number" data-counter data-target="@Model.ReportesActivos">
+                            @Model.ReportesActivos
+                        </div>
+                        <div class="stat-label">Búsquedas activas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

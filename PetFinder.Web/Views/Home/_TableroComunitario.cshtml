@@ -1,0 +1,77 @@
+@* PetFinder.Web/Views/Home/_TableroComunitario.cshtml *@
+@model IEnumerable<BLL.Dtos.ReporteResumenDto>
+
+<section id="comunidad" class="tablero-section py-6 bg-coffee-dark text-white position-relative" aria-labelledby="tablero-title">
+    <div class="container position-relative">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5" data-reveal="fade-up">
+            <div>
+                <span class="section-tag section-tag-light">RED DE SOLIDARIDAD VECINAL</span>
+                <h2 id="tablero-title" class="section-title-serif text-white mt-2">
+                    Tablero comunitario de <span class="highlight-orange">búsqueda y alerta</span>
+                </h2>
+                <p class="section-subtitle text-white-50 mb-0">
+                    Tu mirada atenta puede hacer la diferencia para que una familia vuelva a estar completa.
+                </p>
+            </div>
+            <div class="mt-3 mt-md-0 d-flex gap-2">
+                <a asp-controller="Reporte" asp-action="Crear" class="btn btn-warning-pf">
+                    <i class="bi bi-megaphone me-1"></i>Publicar reporte
+                </a>
+            </div>
+        </div>
+
+        <!-- Tarjetas del Tablero -->
+        <div class="row g-4" data-reveal-group>
+            @if (!Model.Any())
+            {
+                <div class="col-12 text-center py-5 text-white-50">
+                    <i class="bi bi-clipboard2-check display-4 d-block mb-3"></i>
+                    <p class="fs-5">No hay reportes activos en este momento. ¡Excelente noticia para la comunidad!</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var rep in Model)
+                {
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="board-card-dark">
+                            <div class="board-card-img-wrap">
+                                @if (!string.IsNullOrEmpty(rep.FotoUrl))
+                                {
+                                    <img src="@rep.FotoUrl" alt="@(rep.NombreMascota ?? "Mascota reportada")" class="board-card-img" loading="lazy">
+                                }
+                                else
+                                {
+                                    <div class="board-card-no-img">
+                                        <i class="bi bi-camera text-white-50 display-6"></i>
+                                    </div>
+                                }
+                                <div class="board-card-badges">
+                                    @if (rep.TipoReporte == ENTITY.Enums.TipoReporte.Perdida)
+                                    {
+                                        <span class="badge-tipo badge-perdido"><i class="bi bi-exclamation-circle-fill me-1"></i>Perdida</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-tipo badge-encontrado"><i class="bi bi-check-circle-fill me-1"></i>Encontrada</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="board-card-body">
+                                <h3 class="board-card-title">@(string.IsNullOrEmpty(rep.NombreMascota) ? $"{rep.Especie} en búsqueda" : rep.NombreMascota)</h3>
+                                <p class="board-card-location"><i class="bi bi-geo-alt-fill text-warning me-1"></i>@rep.Ciudad</p>
+                                <p class="board-card-desc">Reportado por @rep.NombreUsuario · Especie: @rep.Especie</p>
+                                <div class="board-card-footer">
+                                    <span class="board-card-date"><i class="bi bi-calendar3 me-1"></i>@rep.FechaReporte.ToString("dd MMM yyyy")</span>
+                                    <a asp-controller="Reporte" asp-action="MisReportes" class="board-card-action">
+                                        Ver más &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>

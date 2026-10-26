@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h4 class="popup-title">${refugio.nombre}</h4>
                     <p class="popup-address"><i class="bi bi-geo-alt"></i> ${refugio.direccion}</p>
                     <div class="popup-meta">
-                        <span class="badge-mascotas"><i class="bi bi-heart-fill"></i> ${refugio.totalMascotasDisponibles} mascotas</span>
+                        <span class="badge-mascotas"><i class="bi bi-heart-fill"></i> ${(refugio.mascotasDisponibles ?? refugio.totalMascotasDisponibles ?? 0)} mascotas</span>
                         ${refugio.distanciaKm != null ? `<span class="badge-distancia"><i class="bi bi-compass"></i> a ${refugio.distanciaKm} km</span>` : ''}
                     </div>
                     <div class="popup-actions mt-2">
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <p class="refugio-card-address"><i class="bi bi-geo-alt"></i> ${r.direccion}</p>
                     <div class="refugio-card-footer">
-                        <span class="refugio-pets-count"><i class="bi bi-heart-fill text-danger me-1"></i>${r.totalMascotasDisponibles} en adopción</span>
+                        <span class="refugio-pets-count"><i class="bi bi-heart-fill text-danger me-1"></i>${(r.mascotasDisponibles ?? r.totalMascotasDisponibles ?? 0)} en adopción</span>
                         <a href="/Adopcion?refugioId=${r.id}" class="refugio-card-link">Conocer &rarr;</a>
                     </div>
                 </div>

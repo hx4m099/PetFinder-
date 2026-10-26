@@ -1,0 +1,26 @@
+@* PetFinder.Web/Views/Home/_CtaSection.cshtml *@
+
+<section class="cta-final-section py-6 position-relative text-white overflow-hidden" aria-labelledby="cta-title">
+    <div class="cta-background-pattern" aria-hidden="true"></div>
+    <div class="container position-relative" data-reveal="fade-up">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <span class="cta-badge mb-3 d-inline-block">🐾 ÚNETE A NUESTRA RED SOLIDARIA</span>
+                <h2 id="cta-title" class="cta-heading-serif mb-3">
+                    Cada historia merece un <span class="cta-highlight">final feliz</span>
+                </h2>
+                <p class="cta-description mb-4 mx-auto">
+                    Ya sea adoptando a tu nuevo mejor amigo o ayudando a una familia a encontrar a su mascota perdida, tu participación salva vidas.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a asp-controller="Adopcion" asp-action="Catalogo" class="btn btn-cta-light">
+                        <i class="bi bi-heart-fill text-danger me-2"></i>Adoptar una mascota
+                    </a>
+                    <a asp-controller="Reporte" asp-action="Crear" class="btn btn-cta-outline">
+                        <i class="bi bi-search me-2"></i>Crear un reporte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
