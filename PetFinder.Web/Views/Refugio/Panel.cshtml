@@ -1,0 +1,158 @@
+@model PetFinder.Web.ViewModels.PanelRefugioViewModel
+@{
+    ViewData["Title"] = "Panel del refugio";
+}
+
+<div class="container-fluid py-0">
+    <!-- Header del panel -->
+    <div class="pf-panel-header mb-4">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3">
+                <div style="font-size:3rem">🏠</div>
+                <div>
+                    <h1 class="h3 mb-0 fw-bold text-white">@Model.Refugio.Nombre</h1>
+                    <p class="mb-0 opacity-75">@Model.Refugio.Ciudad · @(Model.Refugio.HorarioAtencion ?? "Sin horario configurado")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <!-- Stats rápidas -->
+        <div class="row g-3 mb-5">
+            <div class="col-sm-3">
+                <div class="pf-stat-card text-center">
+                    <div class="pf-stat-number">@Model.Mascotas.Count()</div>
+                    <div class="pf-stat-label">Mascotas publicadas</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="pf-stat-card text-center" style="border-color:#FFB300">
+                    <div class="pf-stat-number" style="color:#FFB300">@Model.CitasPendientes.Count()</div>
+                    <div class="pf-stat-label">Citas pendientes</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="pf-stat-card text-center" style="border-color:var(--pf-green)">
+                    <div class="pf-stat-number" style="color:var(--pf-green)">@Model.CitasConfirmadas.Count()</div>
+                    <div class="pf-stat-label">Citas confirmadas</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="pf-stat-card text-center">
+                    <a asp-action="CrearMascota" class="pf-btn-primary d-block">
+                        <i class="bi bi-plus-circle me-1"></i>Nueva mascota
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citas pendientes -->
+        @if (Model.CitasPendientes.Any())
+        {
+            <h2 class="h5 fw-bold mb-3">⏳ Citas pendientes de confirmación</h2>
+            <div class="row g-3 mb-5">
+                @foreach (var cita in Model.CitasPendientes)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pf-card p-3 h-100">
+                            <p class="fw-bold mb-1">@cita.NombreMascota</p>
+                            <p class="text-muted small mb-2">@cita.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+                            @if (!string.IsNullOrEmpty(cita.NotasAdoptante))
+                            {
+                                <p class="small mb-2 text-muted">💬 @cita.NotasAdoptante</p>
+                            }
+                            <div class="d-flex gap-2">
+                                <form asp-action="ConfirmarCita" method="post" class="flex-grow-1">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@cita.Id" />
+                                    <button type="submit" class="btn btn-sm pf-btn-green w-100">
+                                        ✅ Confirmar
+                                    </button>
+                                </form>
+                                <form asp-action="CancelarCita" method="post"
+                                      onsubmit="return confirm('¿Cancelar esta cita?')">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@cita.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        ❌
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Mascotas del refugio -->
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h5 fw-bold mb-0">🐾 Mis mascotas</h2>
+            <a asp-action="CrearMascota" class="pf-btn-outline btn-sm">
+                <i class="bi bi-plus"></i> Agregar
+            </a>
+        </div>
+
+        @if (!Model.Mascotas.Any())
+        {
+            <div class="text-center py-4 text-muted">
+                <p>No has publicado mascotas aún.</p>
+                <a asp-action="CrearMascota" class="pf-btn-primary">Publicar primera mascota</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead style="background:var(--pf-orange-light)">
+                        <tr>
+                            <th>Mascota</th>
+                            <th>Especie</th>
+                            <th>Edad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.Mascotas)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        @if (!string.IsNullOrEmpty(m.FotoUrl))
+                                        {
+                                            <img src="@m.FotoUrl" alt="@m.Nombre" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" />
+                                        }
+                                        <strong>@m.Nombre</strong>
+                                    </div>
+                                </td>
+                                <td>@m.Especie</td>
+                                <td>@(m.EdadMeses < 12 ? $"{m.EdadMeses}m" : $"{m.EdadMeses/12}a")</td>
+                                <td>
+                                    @if (m.Vacunada) { <span class="badge bg-success me-1">Vacunada</span> }
+                                    @if (m.Castrada) { <span class="badge bg-info">Castrada</span> }
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a asp-action="EditarMascota" asp-route-id="@m.Id"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form asp-action="EliminarMascota" method="post"
+                                              onsubmit="return confirm('¿Eliminar @m.Nombre del catálogo?')">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@m.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

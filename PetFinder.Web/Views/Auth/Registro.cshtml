@@ -1,0 +1,103 @@
+@model PetFinder.Web.ViewModels.RegistroViewModel
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+@using ENTITY.Enums
+
+<div class="container py-5">
+    <div class="pf-form-card" style="max-width:640px">
+        <div class="text-center mb-4">
+            <div style="font-size:3rem">🐾</div>
+            <h1 class="pf-form-title">Únete a PetFinder</h1>
+            <p class="text-muted">Crea tu cuenta y ayuda a conectar mascotas con familias</p>
+        </div>
+
+        <form asp-action="Registro" method="post" id="registro-form">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-12">
+                    <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Tu nombre completo" id="nombre-input" />
+                    <span asp-validation-for="Nombre" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                    <input asp-for="Email" class="form-control" placeholder="tu@correo.com" id="email-input" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Password" class="form-label fw-semibold"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Mínimo 8 caracteres" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ConfirmPassword" class="form-label fw-semibold"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Repite tu contraseña" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Rol" class="form-label fw-semibold">Tipo de cuenta</label>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="radio" class="btn-check" name="Rol" id="rol-adoptante"
+                                   value="@((int)Rol.Adoptante)" checked>
+                            <label class="btn btn-outline-secondary w-100 pf-role-btn" for="rol-adoptante">
+                                🐾 Adoptante
+                                <small class="d-block text-muted fw-normal">Busco adoptar y reportar mascotas</small>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="radio" class="btn-check" name="Rol" id="rol-refugio"
+                                   value="@((int)Rol.Refugio)">
+                            <label class="btn btn-outline-secondary w-100 pf-role-btn" for="rol-refugio">
+                                🏠 Refugio
+                                <small class="d-block text-muted fw-normal">Publicamos mascotas en adopción</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Telefono" class="form-label fw-semibold"></label>
+                    <input asp-for="Telefono" class="form-control" placeholder="+52 33 1234 5678" />
+                    <span asp-validation-for="Telefono" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Ciudad" class="form-label fw-semibold"></label>
+                    <input asp-for="Ciudad" class="form-control" placeholder="Guadalajara" />
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mt-3 mb-0"></div>
+
+            <button type="submit" class="pf-btn-primary w-100 mt-4">
+                <i class="bi bi-person-check me-2"></i>Crear mi cuenta
+            </button>
+        </form>
+
+        <div class="text-center text-muted small mt-3">
+            ¿Ya tienes cuenta? 
+            <a asp-action="Login" class="fw-bold" style="color:var(--pf-orange)">Iniciar sesión</a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .pf-role-btn { text-align:left; padding:12px 16px; border-radius:12px !important; }
+        .btn-check:checked + .pf-role-btn {
+            background: var(--pf-orange-light) !important;
+            border-color: var(--pf-orange) !important;
+            color: var(--pf-orange-deep) !important;
+        }
+    </style>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

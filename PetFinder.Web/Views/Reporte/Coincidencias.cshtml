@@ -1,0 +1,7 @@
+@model PetFinder.Web.ViewModels.CoincidenciasViewModel
+@{
+    ViewData["Title"] = "Coincidencias encontradas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Reutiliza el mismo partial que BuscarCoincidencias con Buscando=false -->
+@await Html.PartialAsync("BuscarCoincidencias", Model)

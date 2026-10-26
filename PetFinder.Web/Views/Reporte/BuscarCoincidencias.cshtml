@@ -1,0 +1,140 @@
+@model PetFinder.Web.ViewModels.CoincidenciasViewModel
+@{
+    ViewData["Title"] = Model.Buscando ? "Buscando coincidencias..." : "Coincidencias encontradas";
+}
+
+@if (Model.Buscando)
+{
+    <!-- ── Pantalla de carga 3D ──────────────────────────────────────────────── -->
+    <div class="pf-searching" id="searching-section">
+        <canvas id="searching-canvas" aria-label="Animación de búsqueda"></canvas>
+        <div class="text-center">
+            <h2 class="fw-bold">Buscando coincidencias...</h2>
+            <p class="text-muted">Comparando características de imagen y atributos</p>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script type="module" src="~/js/three/searching-scene.js"></script>
+        <script>
+            // Redirigir a resultados después de 2.5 segundos (simulación)
+            setTimeout(() => {
+                window.location.href = '@Url.Action("Coincidencias", "Reporte", new { id = Model.Reporte.Id })';
+            }, 2500);
+        </script>
+    }
+}
+else
+{
+    <!-- ── Resultados ────────────────────────────────────────────────────────── -->
+    <div class="container py-5">
+        <div class="row mb-4 align-items-center">
+            <div class="col">
+                <h1 class="fw-bold">
+                    @if (Model.Coincidencias.Any())
+                    { <text>🎯 @Model.Coincidencias.Count() coincidencia(s) encontradas</text> }
+                    else
+                    { <text>🔍 Sin coincidencias aún</text> }
+                </h1>
+                <p class="text-muted">
+                    Reporte: <strong>@Model.Reporte.TipoReporte</strong> — 
+                    <strong>@Model.Reporte.Especie</strong> en 
+                    <strong>@Model.Reporte.Ciudad</strong>
+                </p>
+            </div>
+            <div class="col-auto">
+                <a asp-action="MisReportes" class="pf-btn-outline">Ver mis reportes</a>
+            </div>
+        </div>
+
+        @if (!Model.Coincidencias.Any())
+        {
+            <div class="text-center py-5">
+                <div style="font-size:5rem">🐾</div>
+                <h3 class="text-muted mt-3">No encontramos coincidencias por ahora</h3>
+                <p class="text-muted">Tu reporte queda activo y lo compararemos con los nuevos reportes.</p>
+                <a asp-controller="Home" asp-action="Index" class="pf-btn-primary mt-3">Volver al inicio</a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4" id="coincidencias-grid">
+                @foreach (var c in Model.Coincidencias)
+                {
+                    var pct = (int)(c.PorcentajeSimilitud * 100);
+                    var colorClass = pct >= 75 ? "success" : pct >= 50 ? "warning" : "secondary";
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pf-card pf-tilt-card h-100">
+                            @if (!string.IsNullOrEmpty(c.FotoUrl))
+                            {
+                                <img src="@c.FotoUrl" class="pf-card-img" alt="Foto de coincidencia" />
+                            }
+                            else
+                            {
+                                <div class="pf-card-img-placeholder">
+                                    @(c.Especie == ENTITY.Enums.Especie.Perro ? "🐶" : c.Especie == ENTITY.Enums.Especie.Gato ? "🐱" : "🐾")
+                                </div>
+                            }
+                            <div class="pf-card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="pf-card-tag">@c.TipoReporte</span>
+                                    <span class="badge bg-@colorClass fs-6">@pct%</span>
+                                </div>
+                                
+                                <!-- Barra de similitud -->
+                                <div class="pf-similarity-bar mb-3" role="progressbar"
+                                     aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="pf-similarity-fill" style="width:@pct%"
+                                         data-width="@pct"></div>
+                                </div>
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    @(c.NombreMascota ?? "Sin nombre") — @c.Especie
+                                </h3>
+                                @if (!string.IsNullOrEmpty(c.Raza))
+                                {
+                                    <p class="text-muted small mb-1">Raza: @c.Raza</p>
+                                }
+                                @if (!string.IsNullOrEmpty(c.ColorPelaje))
+                                {
+                                    <p class="text-muted small mb-1">Color: @c.ColorPelaje</p>
+                                }
+                                <p class="text-muted small mb-2">
+                                    📍 @c.Ciudad · @c.FechaReporte.ToString("dd/MM/yyyy")
+                                </p>
+                                @if (!string.IsNullOrEmpty(c.Descripcion))
+                                {
+                                    <p class="small mb-3">@(c.Descripcion.Length > 80 ? c.Descripcion[..80] + "..." : c.Descripcion)</p>
+                                }
+                                <div class="border-top pt-3 mt-auto">
+                                    <p class="small mb-0">
+                                        <i class="bi bi-person text-muted"></i> @c.NombreUsuario
+                                        @if (!string.IsNullOrEmpty(c.TelefonoUsuario))
+                                        {
+                                            <span class="ms-2">
+                                                <i class="bi bi-telephone text-muted"></i>
+                                                <a href="tel:@c.TelefonoUsuario" style="color:var(--pf-orange)">@c.TelefonoUsuario</a>
+                                            </span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @section Scripts {
+        <script type="module" src="~/js/three/card-tilt.js"></script>
+        <script>
+            // Animar barras de similitud al cargar
+            document.querySelectorAll('.pf-similarity-fill').forEach(bar => {
+                const w = bar.dataset.width;
+                bar.style.width = '0%';
+                setTimeout(() => { bar.style.width = w + '%'; }, 300);
+            });
+        </script>
+    }
+}
