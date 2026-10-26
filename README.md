@@ -134,7 +134,7 @@ dotnet test PetFinder.sln
 | ✅ Fase 2 | BLL (servicios, DTOs, validadores) | **Completa** |
 | ✅ Fase 3 | PetFinder.Web (controladores + vistas Razor) | **Completa** |
 | ✅ Fase 4 | Three.js (animaciones 3D interactivas) | **Completa** |
-| ⏳ Fase 5 | PetFinder.Tests (xUnit + Moq) | Pendiente |
+| ✅ Fase 5 | PetFinder.Tests (xUnit + Moq — 43 tests) | **Completa** |
 
 ---
 
