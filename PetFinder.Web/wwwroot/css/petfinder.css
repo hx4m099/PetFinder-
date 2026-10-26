@@ -175,12 +175,23 @@ h1, h2, h3, h4, h5 {
 }
 .pf-hero-actions { animation: slide-up 0.9s ease both; }
 
+.pf-hero-canvas-container {
+    width: 100%;
+    max-width: 580px;
+    height: 520px;
+    min-height: 420px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #hero-canvas {
-    position: absolute;
-    right: 0; top: 0;
-    width: 55%;
+    width: 100%;
     height: 100%;
-    pointer-events: none;
+    display: block;
+    cursor: pointer;
+    touch-action: none;
 }
 
 @keyframes slide-up {
@@ -426,10 +437,10 @@ h1, h2, h3, h4, h5 {
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .pf-hero { min-height: 100vh; text-align: center; }
+    .pf-hero { min-height: auto; padding: 48px 0; text-align: center; }
     .pf-hero-subtitle { margin: 0 auto 32px; }
     .pf-hero-actions { justify-content: center; }
-    #hero-canvas { width: 100% !important; height: 50% !important; opacity: 0.5; }
+    .pf-hero-canvas-container { height: 420px; min-height: 380px; }
     .pf-form-card { padding: 24px; }
     #searching-canvas { width: 220px; height: 220px; }
 }
