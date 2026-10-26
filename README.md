@@ -119,9 +119,10 @@ dotnet test PetFinder.sln
 | ORM (futuro) | Entity Framework Core 8 + Oracle.EntityFrameworkCore |
 | Autenticación | Cookie Authentication (simulada) |
 | Validación | DataAnnotations + FluentValidation |
-| Frontend | Razor Views, Bootstrap 5 |
-| Animaciones 3D | Three.js |
-| Pruebas | xUnit, Moq |
+| Frontend | Razor Views, Bootstrap 5, Google Fonts (Fraunces + DM Sans) |
+| Mapas | Leaflet 1.9.4 + OpenStreetMap / CARTO |
+| Animaciones | Three.js (Cachorro Chibi 3D) + ES Modules Scroll (IntersectionObserver, RAF) |
+| Pruebas | xUnit, Moq, FluentAssertions |
 | CI/CD | GitHub (ramas por fase) |
 
 ---
@@ -135,6 +136,7 @@ dotnet test PetFinder.sln
 | ✅ Fase 3 | PetFinder.Web (controladores + vistas Razor) | **Completa** |
 | ✅ Fase 4 | Three.js (animaciones 3D interactivas) | **Completa** |
 | ✅ Fase 5 | PetFinder.Tests (xUnit + Moq — 43 tests) | **Completa** |
+| ✅ Fase 6 | Landing Page interactiva: animaciones de scroll modulares, mapa Leaflet sincronizado, tablero comunitario y 49 tests unitarios | **Completa** |
 
 ---
 
