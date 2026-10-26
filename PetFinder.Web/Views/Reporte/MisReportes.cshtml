@@ -1,0 +1,76 @@
+@model IEnumerable<ReporteResumenDto>
+@{
+    ViewData["Title"] = "Mis reportes";
+}
+
+<div class="container py-5">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="fw-bold"><i class="bi bi-list-ul me-2"></i>Mis reportes</h1>
+        <a asp-action="Crear" class="pf-btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Nuevo reporte
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size:5rem">🔍</div>
+            <h3 class="text-muted mt-3">No has creado reportes aún</h3>
+            <a asp-action="Crear" class="pf-btn-primary mt-3">Crear mi primer reporte</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var r in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="pf-card h-100">
+                        @if (!string.IsNullOrEmpty(r.FotoUrl))
+                        {
+                            <img src="@r.FotoUrl" class="pf-card-img" alt="Foto del reporte" />
+                        }
+                        else
+                        {
+                            <div class="pf-card-img-placeholder">
+                                @(r.Especie == Especie.Perro ? "🐶" :
+                                  r.Especie == Especie.Gato ? "🐱" : "🐾")
+                            </div>
+                        }
+                        <div class="pf-card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="pf-card-tag">@r.TipoReporte</span>
+                                @if (r.Activo)
+                                { <span class="badge bg-success">Activo</span> }
+                                else
+                                { <span class="badge bg-secondary">Resuelto</span> }
+                            </div>
+                            <h3 class="h6 fw-bold">
+                                @(r.NombreMascota ?? "Sin nombre") — @r.Especie
+                            </h3>
+                            <p class="text-muted small">📍 @r.Ciudad · @r.FechaReporte.ToString("dd/MM/yyyy")</p>
+
+                            <div class="d-flex gap-2 mt-3">
+                                @if (r.Activo)
+                                {
+                                    <a asp-action="Coincidencias" asp-route-id="@r.Id"
+                                       class="pf-btn-outline btn-sm flex-grow-1">
+                                        🔍 Ver coincidencias
+                                    </a>
+                                    <form asp-action="Desactivar" method="post"
+                                          onsubmit="return confirm('¿Marcar como resuelto?')">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@r.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-success">
+                                            ✅
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

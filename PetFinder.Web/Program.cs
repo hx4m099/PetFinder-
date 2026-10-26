@@ -1,24 +1,60 @@
+using BLL.Extensions;
+using BLL.Exceptions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ── Servicios ─────────────────────────────────────────────────────────────────
 builder.Services.AddControllersWithViews();
+
+// Registra BLL completo (que internamente registra DAL + repos en memoria)
+builder.Services.AddBll();
+
+// Autenticación con cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath        = "/Auth/Login";
+        options.LogoutPath       = "/Auth/Logout";
+        options.AccessDeniedPath = "/Auth/AccesoDenegado";
+        options.ExpireTimeSpan   = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly  = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    });
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ── Middleware pipeline ───────────────────────────────────────────────────────
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+// Middleware centralizado para excepciones de negocio
+app.Use(async (context, next) =>
+{
+    try { await next(); }
+    catch (AccesoDenegadoException ex)
+    {
+        context.Response.Redirect($"/Auth/AccesoDenegado?msg={Uri.EscapeDataString(ex.Message)}");
+    }
+    catch (EntidadNoEncontradaException)
+    {
+        context.Response.StatusCode = 404;
+        context.Response.Redirect("/Home/NotFound");
+    }
+});
 
 app.MapControllerRoute(
     name: "default",

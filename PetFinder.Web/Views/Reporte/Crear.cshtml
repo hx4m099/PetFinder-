@@ -1,0 +1,124 @@
+@model PetFinder.Web.ViewModels.ReporteFormViewModel
+@{
+    ViewData["Title"] = "Reportar mascota";
+}
+@using ENTITY.Enums
+
+<div class="container py-5">
+    <div class="pf-form-card" style="max-width:680px">
+        <div class="text-center mb-4">
+            <div style="font-size:3rem">🔍</div>
+            <h1 class="pf-form-title">Reportar mascota</h1>
+            <p class="text-muted">Cuéntanos sobre la mascota perdida o encontrada</p>
+        </div>
+
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" id="reporte-form">
+            @Html.AntiForgeryToken()
+
+            <!-- Tipo de reporte -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">¿Qué quieres reportar?</label>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" asp-for="TipoReporte" id="tipo-perdida"
+                               value="@((int)TipoReporte.Perdida)" checked>
+                        <label class="btn btn-outline-secondary w-100 py-3" for="tipo-perdida">
+                            😢 Mi mascota se perdió
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" asp-for="TipoReporte" id="tipo-encontrada"
+                               value="@((int)TipoReporte.Encontrada)">
+                        <label class="btn btn-outline-secondary w-100 py-3" for="tipo-encontrada">
+                            🤗 Encontré una mascota
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <!-- Especie -->
+                <div class="col-md-6">
+                    <label asp-for="Especie" class="form-label fw-semibold"></label>
+                    <select asp-for="Especie" class="form-select"
+                            asp-items="Html.GetEnumSelectList<Especie>()">
+                        <option value="">— Seleccionar —</option>
+                    </select>
+                    <span asp-validation-for="Especie" class="text-danger small"></span>
+                </div>
+
+                <!-- Nombre -->
+                <div class="col-md-6">
+                    <label asp-for="NombreMascota" class="form-label fw-semibold"></label>
+                    <input asp-for="NombreMascota" class="form-control" placeholder="Opcional" />
+                </div>
+
+                <!-- Raza y color -->
+                <div class="col-md-6">
+                    <label asp-for="Raza" class="form-label fw-semibold"></label>
+                    <input asp-for="Raza" class="form-control" placeholder="Ej. Labrador" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ColorPelaje" class="form-label fw-semibold"></label>
+                    <input asp-for="ColorPelaje" class="form-control" placeholder="Ej. Dorado" />
+                </div>
+
+                <!-- Ciudad -->
+                <div class="col-12">
+                    <label asp-for="Ciudad" class="form-label fw-semibold"></label>
+                    <input asp-for="Ciudad" class="form-control" placeholder="Ciudad donde ocurrió" />
+                    <span asp-validation-for="Ciudad" class="text-danger small"></span>
+                </div>
+
+                <!-- Descripción -->
+                <div class="col-12">
+                    <label asp-for="Descripcion" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Descripcion" class="form-control" rows="3"
+                              placeholder="Describe características únicas, collar, circunstancias..."></textarea>
+                </div>
+
+                <!-- Foto upload -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Foto de la mascota <span class="text-muted fw-normal">(muy importante para la comparación)</span></label>
+                    <div class="pf-upload-area" id="upload-area" onclick="document.getElementById('foto-input').click()">
+                        <div id="upload-placeholder">
+                            <div style="font-size:2.5rem">📸</div>
+                            <p class="mb-1 fw-semibold">Haz clic para subir una foto</p>
+                            <p class="text-muted small">JPG, PNG o WebP · Máx. 5 MB</p>
+                        </div>
+                        <img id="foto-preview" class="pf-upload-preview d-none" alt="Vista previa de la foto" />
+                    </div>
+                    <input type="file" asp-for="Foto" id="foto-input" class="d-none"
+                           accept="image/jpeg,image/png,image/webp" />
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mt-3 mb-0"></div>
+
+            <button type="submit" class="pf-btn-primary w-100 mt-4">
+                <i class="bi bi-search-heart me-2"></i>Crear reporte y buscar coincidencias
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const fotoInput  = document.getElementById('foto-input');
+        const preview    = document.getElementById('foto-preview');
+        const placeholder = document.getElementById('upload-placeholder');
+
+        fotoInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                preview.src = ev.target.result;
+                preview.classList.remove('d-none');
+                placeholder.classList.add('d-none');
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+}

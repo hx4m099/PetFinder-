@@ -1,0 +1,115 @@
+@model PetFinder.Web.ViewModels.MascotaDetalleViewModel
+@{
+    ViewData["Title"] = Model.Mascota.Nombre;
+    var m = Model.Mascota;
+}
+
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Foto y galería -->
+        <div class="col-lg-5">
+            @if (!string.IsNullOrEmpty(m.FotoUrl))
+            {
+                <img src="@m.FotoUrl" class="img-fluid rounded-4 shadow" alt="Foto de @m.Nombre"
+                     style="width:100%;max-height:450px;object-fit:cover;" />
+            }
+            else
+            {
+                <div class="pf-card-img-placeholder rounded-4" style="height:350px;font-size:6rem">
+                    @(m.Especie == ENTITY.Enums.Especie.Perro ? "🐶" :
+                      m.Especie == ENTITY.Enums.Especie.Gato ? "🐱" : "🐾")
+                </div>
+            }
+
+            <!-- Refugio info -->
+            <div class="pf-card mt-4 p-4">
+                <h3 class="h6 fw-bold text-muted text-uppercase small mb-2">Refugio</h3>
+                <h4 class="h5 fw-bold mb-1">@m.NombreRefugio</h4>
+                <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> @m.CiudadRefugio</p>
+                @if (!string.IsNullOrEmpty(m.HorarioRefugio))
+                {
+                    <p class="text-muted small"><i class="bi bi-clock"></i> @m.HorarioRefugio</p>
+                }
+            </div>
+        </div>
+
+        <!-- Detalle y formulario de cita -->
+        <div class="col-lg-7">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item"><a asp-controller="Adopcion" asp-action="Catalogo">Adoptar</a></li>
+                    <li class="breadcrumb-item active">@m.Nombre</li>
+                </ol>
+            </nav>
+
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+                <span class="pf-card-tag">@m.Especie</span>
+                @if (m.Vacunada) { <span class="pf-card-tag green"><i class="bi bi-shield-check"></i> Vacunada</span> }
+                @if (m.Castrada) { <span class="pf-card-tag green"><i class="bi bi-scissors"></i> Castrada</span> }
+                @if (!m.Disponible) { <span class="badge bg-danger">No disponible</span> }
+            </div>
+
+            <h1 class="fw-bold mb-1">@m.Nombre</h1>
+            @if (!string.IsNullOrEmpty(m.Raza))
+            {
+                <p class="text-muted fs-5">@m.Raza · @(m.EdadMeses < 12 ? $"{m.EdadMeses} meses" : $"{m.EdadMeses / 12} año(s)")</p>
+            }
+            @if (!string.IsNullOrEmpty(m.Descripcion))
+            {
+                <p class="fs-5 mt-3">@m.Descripcion</p>
+            }
+
+            <!-- Formulario de cita -->
+            @if (m.Disponible)
+            {
+                <div class="pf-card p-4 mt-4" id="agendar-cita-section">
+                    <h2 class="h5 fw-bold mb-3">
+                        <i class="bi bi-calendar-heart text-danger"></i> Agendar cita
+                    </h2>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-controller="Adopcion" asp-action="AgendarCita" method="post" id="cita-form">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="FormCita.MascotaId" />
+                            <input type="hidden" asp-for="FormCita.RefugioId" />
+
+                            <div class="mb-3">
+                                <label asp-for="FormCita.FechaHora" class="form-label fw-semibold"></label>
+                                <input asp-for="FormCita.FechaHora" class="form-control"
+                                       type="datetime-local"
+                                       min="@DateTime.Now.AddHours(1).ToString("yyyy-MM-ddTHH:mm")"
+                                       max="@DateTime.Now.AddMonths(3).ToString("yyyy-MM-ddTHH:mm")" />
+                                <span asp-validation-for="FormCita.FechaHora" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="FormCita.NotasAdoptante" class="form-label fw-semibold"></label>
+                                <textarea asp-for="FormCita.NotasAdoptante" class="form-control" rows="2"
+                                          placeholder="¿Tienes alguna pregunta o información para el refugio?"></textarea>
+                            </div>
+
+                            <button type="submit" class="pf-btn-primary w-100">
+                                <i class="bi bi-calendar-check me-2"></i>Confirmar cita
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="text-center py-3">
+                            <p class="text-muted">Para agendar una cita necesitas iniciar sesión.</p>
+                            <a asp-controller="Auth" asp-action="Login"
+                               asp-route-returnUrl="@Context.Request.Path" class="pf-btn-primary">
+                                Iniciar sesión
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

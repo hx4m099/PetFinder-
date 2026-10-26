@@ -1,0 +1,72 @@
+@model PetFinder.Web.ViewModels.PanelAdminViewModel
+@{
+    ViewData["Title"] = "Panel de administración";
+}
+
+<div class="container-fluid py-0">
+    <div class="pf-panel-header mb-4" style="background:linear-gradient(135deg,#5C6BC0,#3949AB)">
+        <div class="container">
+            <h1 class="h3 fw-bold text-white mb-0">
+                <i class="bi bi-shield-check me-2"></i>Panel de administración
+            </h1>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-lg-3">
+                <div class="pf-stat-card text-center">
+                    <div class="pf-stat-number">@Model.TotalRefugios</div>
+                    <div class="pf-stat-label">Refugios activos</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="pf-stat-card text-center">
+                    <div class="pf-stat-number">@Model.TotalMascotas</div>
+                    <div class="pf-stat-label">Mascotas publicadas</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="pf-stat-card text-center" style="border-color:var(--pf-green)">
+                    <div class="pf-stat-number" style="color:var(--pf-green)">@Model.TotalReportes</div>
+                    <div class="pf-stat-label">Reportes activos</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="pf-card p-4">
+                    <h2 class="h5 fw-bold mb-3">📋 Últimos reportes</h2>
+                    @if (!Model.UltimosReportes.Any())
+                    { <p class="text-muted">Sin reportes activos</p> }
+                    else
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var r in Model.UltimosReportes)
+                            {
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between">
+                                        <span>@r.TipoReporte — @r.Especie en @r.Ciudad</span>
+                                        <small class="text-muted">@r.FechaReporte.ToString("dd/MM")</small>
+                                    </div>
+                                    <small class="text-muted">Por: @r.NombreUsuario</small>
+                                </li>
+                            }
+                        </ul>
+                        <a asp-action="Reportes" class="pf-btn-outline mt-3 btn-sm">Ver todos</a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="pf-card p-4">
+                    <h2 class="h5 fw-bold mb-3">🏠 Acciones rápidas</h2>
+                    <div class="d-grid gap-2">
+                        <a asp-action="Refugios" class="pf-btn-outline">Ver todos los refugios</a>
+                        <a asp-action="Reportes" class="pf-btn-outline">Ver todos los reportes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

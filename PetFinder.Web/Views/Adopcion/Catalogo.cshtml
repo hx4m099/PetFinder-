@@ -1,0 +1,109 @@
+@model PetFinder.Web.ViewModels.CatalogoViewModel
+@{
+    ViewData["Title"] = "Mascotas en adopción";
+}
+@using ENTITY.Enums
+
+<div class="container py-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="fw-bold">🐾 Mascotas en adopción</h1>
+            <p class="text-muted">Encuentra a tu compañero perfecto en nuestros refugios aliados</p>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="pf-filters">
+        <form method="get" asp-action="Catalogo" id="filtros-form">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold small">Refugio</label>
+                    <select name="refugioId" class="form-select">
+                        <option value="">— Todos los refugios —</option>
+                        @foreach (var r in Model.Refugios)
+                        {
+                            <option value="@r.Id" selected="@(Model.RefugioFiltro == r.Id)">@r.Nombre (@r.Ciudad)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold small">Especie</label>
+                    <select name="especie" class="form-select">
+                        <option value="">— Todas —</option>
+                        @foreach (var e in Enum.GetValues<Especie>())
+                        {
+                            <option value="@((int)e)" selected="@(Model.EspecieFiltro == e)">@e</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold small">Edad máx. (meses)</label>
+                    <input type="number" name="edadMax" class="form-control" min="0" max="360"
+                           placeholder="Sin límite" value="@Model.EdadMaxFiltro" />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="pf-btn-primary w-100">Filtrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Catálogo -->
+    @if (!Model.Mascotas.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size:5rem">🐾</div>
+            <h3 class="text-muted mt-3">No hay mascotas con esos filtros</h3>
+            <a asp-action="Catalogo" class="pf-btn-primary mt-3">Ver todas</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4" id="catalogo-grid">
+            @foreach (var m in Model.Mascotas)
+            {
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <a asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@m.Id"
+                       class="text-decoration-none">
+                        <div class="pf-card pf-tilt-card h-100">
+                            @if (!string.IsNullOrEmpty(m.FotoUrl))
+                            {
+                                <img src="@m.FotoUrl" class="pf-card-img" alt="Foto de @m.Nombre" />
+                            }
+                            else
+                            {
+                                <div class="pf-card-img-placeholder" aria-label="Sin foto">
+                                    @(m.Especie == Especie.Perro ? "🐶" :
+                                      m.Especie == Especie.Gato ? "🐱" :
+                                      m.Especie == Especie.Ave ? "🐦" : "🐾")
+                                </div>
+                            }
+                            <div class="pf-card-body">
+                                <div class="d-flex gap-1 mb-2 flex-wrap">
+                                    <span class="pf-card-tag">@m.Especie</span>
+                                    @if (m.Vacunada) { <span class="pf-card-tag green">Vacunada</span> }
+                                    @if (m.Castrada) { <span class="pf-card-tag green">Castrada</span> }
+                                </div>
+                                <h3 class="h5 fw-bold text-dark mb-1">@m.Nombre</h3>
+                                @if (!string.IsNullOrEmpty(m.Raza))
+                                {
+                                    <p class="text-muted small mb-1">@m.Raza</p>
+                                }
+                                <p class="text-muted small mb-2">
+                                    @(m.EdadMeses < 12 ? $"{m.EdadMeses} meses" : $"{m.EdadMeses / 12} año(s)")
+                                </p>
+                                <p class="text-muted small mb-0">
+                                    📍 @m.NombreRefugio · @m.CiudadRefugio
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script type="module" src="~/js/three/card-tilt.js"></script>
+}

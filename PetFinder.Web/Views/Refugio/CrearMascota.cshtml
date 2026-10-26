@@ -1,0 +1,75 @@
+@model PetFinder.Web.ViewModels.MascotaFormViewModel
+@{
+    ViewData["Title"] = Model.Id.HasValue ? "Editar mascota" : "Nueva mascota";
+}
+@using ENTITY.Enums
+
+<div class="container py-5">
+    <div class="pf-form-card" style="max-width:640px">
+        <h1 class="pf-form-title mb-4">
+            @(Model.Id.HasValue ? "✏️ Editar mascota" : "🐾 Nueva mascota")
+        </h1>
+
+        <form asp-action="@(Model.Id.HasValue ? "EditarMascota" : "CrearMascota")"
+              asp-route-id="@Model.Id"
+              method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger small"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Especie" class="form-label fw-semibold"></label>
+                    <select asp-for="Especie" class="form-select"
+                            asp-items="Html.GetEnumSelectList<Especie>()"></select>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Raza" class="form-label fw-semibold"></label>
+                    <input asp-for="Raza" class="form-control" placeholder="Opcional" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="EdadMeses" class="form-label fw-semibold"></label>
+                    <input asp-for="EdadMeses" type="number" class="form-control" min="0" max="360" />
+                    <span asp-validation-for="EdadMeses" class="text-danger small"></span>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Descripcion" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        <input asp-for="Vacunada" class="form-check-input" type="checkbox" role="switch" />
+                        <label asp-for="Vacunada" class="form-check-label fw-semibold"></label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        <input asp-for="Castrada" class="form-check-input" type="checkbox" role="switch" />
+                        <label asp-for="Castrada" class="form-check-label fw-semibold"></label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Foto" class="form-label fw-semibold"></label>
+                    @if (!string.IsNullOrEmpty(Model.FotoActualUrl))
+                    {
+                        <img src="@Model.FotoActualUrl" class="pf-upload-preview mb-2 d-block" alt="Foto actual" />
+                    }
+                    <input asp-for="Foto" type="file" class="form-control"
+                           accept="image/jpeg,image/png,image/webp" />
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="pf-btn-primary flex-grow-1">
+                    <i class="bi bi-check-circle me-2"></i>Guardar
+                </button>
+                <a asp-action="Panel" class="pf-btn-outline">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }
